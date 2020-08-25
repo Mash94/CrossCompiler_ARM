@@ -53,3 +53,31 @@ Copyright (C) 2017 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions. There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ``` 
+
+## Proceso de Compilacion
+```makefile
+exec=server
+func=funciones
+arm:
+ arm-linux-gnueabihf-gcc -c src/$(exec).c -o obj_arm/$(exec).o
+ arm-linux-gnueabihf-gcc -E src/$(exec).c -o sup_arm/$(exec).i
+ arm-linux-gnueabihf-gcc -c src/$(func).c -o obj_arm/$(func).o
+ arm-linux-gnueabihf-gcc -E src/$(func).c -o sup_arm/$(func).i
+ arm-linux-gnueabihf-gcc obj_arm/$(exec).o obj_arm/$(func).o -o $(exec)_arm	
+```
+## SSH a BeagleBone
+passwd: temppwd
+```
+ssh ubuntu@arm.local
+```
+
+## Envio del ejecutable hacia el host
+Sobre el arm:
+```
+cd
+mkdir remoteRcv
+```
+Sobre el host:
+```
+scp server_arm ubuntu@arm.local:~/remoteRcv
+``` 
